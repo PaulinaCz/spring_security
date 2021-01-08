@@ -5,18 +5,22 @@ import com.czerniecka.spring_security.security.filters.UsernamePasswordAuthFilte
 import com.czerniecka.spring_security.security.providers.OtpAuthenticationProvider;
 import com.czerniecka.spring_security.security.providers.TokenAuthProvider;
 import com.czerniecka.spring_security.security.providers.UsernamePasswordAuthProvider;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
+@EnableAsync
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -60,5 +64,18 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public TokenAuthFilter tokenAuthFilter(){
         return new TokenAuthFilter();
+    }
+
+    @Bean
+    public InitializingBean initializingBean(){
+
+        //also could be achieved by setting spring.security.strategy
+        // in configuration file
+
+        return () -> {
+            SecurityContextHolder.setStrategyName(
+                    SecurityContextHolder.MODE_INHERITABLETHREADLOCAL
+            );
+        };
     }
 }
