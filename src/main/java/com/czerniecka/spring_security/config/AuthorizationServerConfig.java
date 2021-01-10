@@ -36,7 +36,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .secret("secret2")
                     .scopes("read")
                     .authorizedGrantTypes("authorization_code")
-                    .redirectUris("http://localhost:9090"); // redirects to non-existing endpoint but still passes code in response
+                    .redirectUris("http://localhost:9090") // redirects to non-existing endpoint but still passes code in response
+                .and()
+                .withClient("client3")
+                .secret("secret3")
+                .scopes("read")
+                .authorizedGrantTypes("client_credentials"); // doesnt involve user, flow of data goes between
+                                                            // client, authorization server and resource server
     }
 
     @Override
