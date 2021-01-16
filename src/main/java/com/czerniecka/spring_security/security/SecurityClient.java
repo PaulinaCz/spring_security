@@ -55,7 +55,7 @@ public class SecurityClient implements ClientDetails {
 
     @Override
     public Set<String> getRegisteredRedirectUri() {
-        return null;
+        return Set.of("http://localhost:9090");
     }
 
     @Override

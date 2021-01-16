@@ -45,7 +45,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     public JwtAccessTokenConverter converter(){
         var c = new JwtAccessTokenConverter();
         c.setSigningKey("secret"); // "password" for authorization server uses to sign the tokens
-        return c;
+        return c;                   // for symmetric keys -> both auth and resource servers share same "primary secret key"
     }
 
     @Bean
